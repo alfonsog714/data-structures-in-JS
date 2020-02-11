@@ -62,4 +62,53 @@ class Graph {
             }
         }
     }
+
+    bfs(startingVertex, destinationVertex) {
+        const queue = new Queue();
+
+        const visitedVertices = new Set();
+
+        queue.enqueue([startingVertex]);
+        while(!queue.isEmpty()) {
+            let path = queue.dequeue();
+            let vertex = path[path.length - 1];
+
+            if(!visitedVertices.has(vertex)) {
+                if(vertex === destinationVertex) {
+                    return path;
+                }
+
+                visitedVertices.add(vertex);
+                for(let nextVert of this.vertices[vertex]) {
+                    let newPath = [...path, nextVert];
+                    queue.enqueue(newPath)
+                }
+            }
+        }
+    }
+
+    dfs(startingVertex, destinationVertex) {
+        const stack = new Stack();
+
+        const visitedVertices = new Set();
+
+        stack.add([startingVertex]);
+
+        while(!stack.isEmpty()) {
+            let path = stack.pop();
+            let vertex = path[path.length - 1];
+
+            if(!visitedVertices.has(vertex)) {
+                if(vertex === destinationVertex) {
+                    return path;
+                }
+
+                visitedVertices.add(vertex);
+                for(let nextVert of this.vertices[vertex]) {
+                    let newPath = [...path, nextVert];
+                    stack.add(newPath)
+                }
+            }
+        }
+    }
 }
